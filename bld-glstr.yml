@@ -1,7 +1,29 @@
 --- # build gluster cluster
+# https://medium.com/@jmarhee/deploying-a-glusterfs-storage-cluster-with-ansible-on-digitalocean-14dacd721e23
 - hosts: stor
   connection: ssh
   user: root
   gather_facts: true
   tasks:
-    - name: 'verify gluster is installed'
+    # assumes a gluster repo is already installed
+    - name: 'install gluster server'
+      yum:
+        name: glusterfs-server
+        state: installed
+    - name: 'install nfs server' # for alternative serving
+      yum:
+        name: nfs-utils
+        state: installed
+    # setup the gluster volume
+    - name: create gluster volume {% }
+      gluster_volume: state=present name=gv01 rebalance=yes cluster=”{{hostvars[‘glst2’][‘ansible_all_ipv4_addresses’][‘ansible_eth1’][‘ipv4.address’]}},{{hostvars[‘glst3’][‘ansible_all_ipv4_addresses’][‘ansible_eth1’][‘ipv4.address’]}}”
+      run_once: true
+      when: ansible_hostname == "glst1"
+    - name: create gluster volume
+      gluster_volume: state=present name=gv01 rebalance=yes cluster=”{{hostvars[‘gluster1’][‘ansible_all_ipv4_addresses’][‘ansible_eth1’][‘ipv4.address’]}},{{hostvars[‘glst3’][‘ansible_all_ipv4_addresses’][‘ansible_eth1’][‘ipv4.address’]}}”
+      run_once: true
+      when: ansible_hostname == "glst2"
+    - name: create gluster volume
+      gluster_volume: state=present name=gv01 rebalance=yes cluster=”{{hostvars[‘gluster1’][‘ansible_all_ipv4_addresses’][‘ansible_eth1’][‘ipv4.address’]}},{{hostvars[‘glst2’][‘ansible_all_ipv4_addresses’][‘ansible_eth1’][‘ipv4.address’]}}”
+      run_once: true
+      when: ansible_hostname == "glst3"
