@@ -1,0 +1,7 @@
+--- # build RHV
+- hosts: rhvs
+  connection: ssh
+  user: root
+  gather_facts: yes
+  tasks:
+    - name: 'verify storage is prepared beforehand'

@@ -1,0 +1,7 @@
+--- # build gluster cluster
+- hosts: stor
+  connection: ssh
+  user: root
+  gather_facts: true
+  tasks:
+    - name: 'verify gluster is installed'

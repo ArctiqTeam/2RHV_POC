@@ -1,0 +1,17 @@
+# order of events
+
+- prepare storage
+
+- install rhv packages
+
+- run rhv installer
+
+- setup self-hosted engine
+
+- prepare rhv storage
+
+- wait for engine to be running
+
+- final configure of rhv
+
+- build a test vm

@@ -1,0 +1,27 @@
+# hosts file for ansible
+
+glst1 ansible_ssh_host=10.4.4.5
+glst2 ansible_ssh_host=10.4.4.6
+glst3 ansible_ssh_host=10.4.4.7
+rhv1 ansible_ssh_host=10.4.4.3
+rhv2 ansible_ssh_host=10.4.4.4
+ansible-cm ansible_ssh_host=10.4.4.2
+
+[rhvs]
+rhv1
+rhv2
+
+[stor]
+glst1
+glst2
+glst3
+
+[glusters:children]
+stor
+
+[all5]
+glst1
+glst2
+glst3
+rhv1
+rhv2
