@@ -7,3 +7,10 @@ engine_IP=
 subnetmask=
 your_DNS_IP=
 your_email=
+clustername=
+he_size_gb=
+stor_conn=
+# eg, for self-hosted engine on NFS mount: 127.0.0.1:/she
+rootssh_pubkey=
+timezone=
+#eg, toronto is: America/Toronto
