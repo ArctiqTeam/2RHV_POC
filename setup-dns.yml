@@ -80,5 +80,5 @@
     
     - name: Create and add zones into named.conf.local
       template:
-        src:
-        dest:
+        src: named.conf.local.j2
+        dest: /etc/named/named.conf.local
