@@ -80,7 +80,7 @@
     
     - name: Create and add zones into named.conf.local
       template:
-        src: named.conf.local.j2
+        src: templates/named.conf.local.j2
         dest: /etc/named/named.conf.local
 
 # Create zones folder
@@ -91,12 +91,26 @@
 
     - name: Create forward zone from template
       template:
-        src: db.domain.fwd-zone.j2
+        src: templates/db.domain.fwd-zone.j2
         dest: "/etc/named/zones/db.{{ my_domain }}"
         mode: 0755
         
     - name: Create reverse zone from template
         template:
-        src: db.subnet.rev-zone.j2
+        src: templates/db.subnet.rev-zone.j2
         dest: "/etc/named/zones/db.{{ subnetrev }}"
+
+# Now validate files
+    - name: validate the forward zone file
+    
+    - name: validate reverse zone file
+
+# Now start bind service   
+    - name: Start BIND service
+      service:
+        enabled: yes
+        name: bind
+        state: started
         
+    - name: "Tell you to setup etc/resolv.conf"
+      debug: msg="Ensure you add the IP and domain of this DNS server to the /etc/resolv.conf of all the other nodes."
