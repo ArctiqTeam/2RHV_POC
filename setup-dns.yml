@@ -109,7 +109,7 @@
     - name: Start BIND service
       service:
         enabled: yes
-        name: bind
+        name: named
         state: started
         
     - name: "Tell you to setup etc/resolv.conf"
