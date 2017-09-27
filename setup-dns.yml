@@ -82,3 +82,21 @@
       template:
         src: named.conf.local.j2
         dest: /etc/named/named.conf.local
+
+# Create zones folder
+    - name: "mkdir /etc/named/zones -p"
+      file: path=/etc/named/zones state=directory mode=0755
+
+# Now create the fwd and rev zone files..
+
+    - name: Create forward zone from template
+      template:
+        src: db.domain.fwd-zone.j2
+        dest: "/etc/named/zones/db.{{ my_domain }}"
+        mode: 0755
+        
+    - name: Create reverse zone from template
+        template:
+        src: db.subnet.rev-zone.j2
+        dest: "/etc/named/zones/db.{{ subnetrev }}"
+        
