@@ -4,6 +4,8 @@
   gather_facts: smart
   become: yes
   user: scotty
+  include:
+    - vars.yml
   tasks:
     - name: Install bind software and some others
       yum: state=latest update_cache=yes pkg={{ item }}
