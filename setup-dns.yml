@@ -75,3 +75,10 @@
 #      assert: 
 #        that: { ? }
 #        msg: Still unable to query the correct DNS server.
+
+# Now Configure the local named file
+    
+    - name: Create and add zones into named.conf.local
+      template:
+        src:
+        dest:
