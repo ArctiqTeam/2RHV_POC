@@ -1,0 +1,43 @@
+--- # setup DNS on the Ansible node
+- hosts: localhost
+  connection: local
+  gather_facts: smart
+  become: yes
+  user: scotty
+  tasks:
+    - name: Install bind software and some others
+      yum: state=latest update_cache=yes pkg={{ item }}
+      with_items:
+        - bind
+        - bind-utils
+        - tree
+        - net-tools
+        - NetworkManager-tui
+        - vim-enhanced
+        - yum-utils
+        - deltarpm
+    - name: Run a yum update
+      yum: state=latest update_cache=yes pkg=*
+      
+    - name: "Add trusted zone IPs to named.conf"
+      blockinfile:
+        state: present
+        
+    - name: "Add IP of our DNS to named.conf"
+      lineinfile:
+        state: present
+        #note the variable here for the ansible host ip address
+        line: "listen-on port 53 { 127.0.0.1; "{{ ansible_ip_address }}"; };"
+        
+    - name: "Change allow-query to 'trusted' in named.conf"
+      lineinfile:
+        state: present
+        line: "allow_query { trusted; };"
+    
+    - name: "Add include for named.conf.local"
+      lineinfile:
+        state: present
+        insertafter: EOF
+        line: "include "/etc/named/named.conf.local";"
+        validate: 
+        
