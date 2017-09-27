@@ -1,6 +1,8 @@
 # 2RHV_POC
 a POC build of 2 RHV/oVirt (v4.1) servers, all orchestrated by Ansible
 
+_(Designed to run in Ansible 'Core'/ open-source or Red Hat supported Ansible Engine)_
+
 Files:
 * bld-glstr.yml	-- to build a gluster pool.
 * bld-rhv.yml	-- to build a RHV/oVirt self-hosted hypervisor
