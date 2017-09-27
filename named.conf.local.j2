@@ -1,0 +1,9 @@
+zone "{% your_domain %}" {
+	type master;
+	file "/etc/named/zones/db.{% your_domain %}"; #zone file path
+};
+
+zone "{rev_f3_octets}.in-addr.arpa" {
+	type master;
+	file "/etc/named/zones/db.{% f3_octets %}"; # 192.168.1.0/24 subnet ?
+};
