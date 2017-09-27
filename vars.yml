@@ -1,0 +1,39 @@
+
+#variables needed
+
+your_domain = 2rhv.com
+ansibledns_ip = 
+rhv1_ip
+rhv2_ip
+glstr1_ip
+glstr2_ip
+glstr2_ip
+
+
+#---------------------------------------
+# if /24, then 3 octets
+
+# first 3 octets of your network
+f3_octets = 192.168.1
+
+# reversed first 3 octets of your network
+rev_f3_octets = 1.168.192
+
+#---------------------------------------
+#if /16, then 2 octets
+
+# first 3 octets of your network
+f2_octets = 192.168
+
+# reversed first 3 octets of your network
+rev_f2_octets = 168.192
+
+#---------------------------------------
+#if /8, then 1 octet
+
+# first 1 octet of your network
+f1_octets = 192
+
+# reversed first 3 octets of your network
+rev_f1_octets = 192
+
