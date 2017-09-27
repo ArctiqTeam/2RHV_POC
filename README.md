@@ -10,5 +10,7 @@ Files:
 * DNS config templates coming soon.
 
 NOTE! The storage layer needs to be built before this hosted-engine will deploy!
+ * for this we have: [bld-glstr.yml](https://github.com/ArctiqTeam/2RHV_POC/blob/master/bld-glstr.yml)
 
 NOTE! A REAL DNS server must be available to the node doing the install!
+ * for this, I've added: [setup-dns.yml](https://github.com/ArctiqTeam/2RHV_POC/blob/master/setup-dns.yml)
