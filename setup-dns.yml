@@ -10,6 +10,7 @@
       with_items:
         - bind
         - bind-utils
+        - python-dns
         - tree
         - net-tools
         - NetworkManager-tui
@@ -22,22 +23,55 @@
     - name: "Add trusted zone IPs to named.conf"
       blockinfile:
         state: present
+        path: /etc/named.conf
+        backup: yes
+        insertafter: "acl "trusted" {"
+        marker: "# {mark} Ansible managed "
+        block: |
+          {{ ansibledns_ip }}
+          {{ rhv1_ip }}
+          {{ rhv2_ip }}
+          {{ glstr1_ip }}
+          {{ glstr2_ip }}
+          {{ glstr2_ip }}
+        validate: '/usr/sbin/named-checkconf %s'
         
     - name: "Add IP of our DNS to named.conf"
       lineinfile:
+        path: /etc/named.conf
         state: present
         #note the variable here for the ansible host ip address
         line: "listen-on port 53 { 127.0.0.1; "{{ ansible_ip_address }}"; };"
+        validate: '/usr/sbin/named-checkconf %s'
         
     - name: "Change allow-query to 'trusted' in named.conf"
       lineinfile:
+        path: /etc/named.conf
         state: present
         line: "allow_query { trusted; };"
-    
+        validate: '/usr/sbin/named-checkconf %s'
+        
     - name: "Add include for named.conf.local"
       lineinfile:
+        path: /etc/named.conf
         state: present
         insertafter: EOF
         line: "include "/etc/named/named.conf.local";"
-        validate: 
+        validate: '/usr/sbin/named-checkconf %s'
+    - name: Add entries to resolv.conf
+      blockinfile:
+        path: /etc/resolv.conf
+        block: |
+          search 2rhv.com
+          nameserver {{ ansibledns_ip }}
+        insertafter: EOF
+        state: present
         
+#    - name: Attempt a DNS query
+#      debug: msg="This host queries the DNS properly"
+#      when: lookup('dig', 'ansible-cm') == 
+        
+#    - name: Assert that DNS query
+#      assert: 
+#        that: { ? }
+#        msg: Still unable to query the correct DNS server.
